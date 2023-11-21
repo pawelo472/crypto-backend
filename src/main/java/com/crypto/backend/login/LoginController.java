@@ -5,17 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/v1/user")
 public class LoginController {
 
-//    private UserRepository repository;
-//    @GetMapping("/loginn")
-//    public List<UserEntity> loginUser(){
-//        return repository.findAll();
-//    }
+    private UserRepository repository;
+    @GetMapping("/loginn")
+    public List<UserEntity> loginUser(){
+        return repository.findAll();
+    }
 @Autowired
 private UserService userService;
     @PostMapping(path = "/save")

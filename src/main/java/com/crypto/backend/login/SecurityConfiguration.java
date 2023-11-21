@@ -27,13 +27,13 @@ public class SecurityConfiguration {
 //                .build();
         return http.authorizeHttpRequests()
                 .requestMatchers(AntPathRequestMatcher.antMatcher("/console/**")).permitAll()
-                .requestMatchers(AntPathRequestMatcher.antMatcher("/loginn")).permitAll()  // Add this line to permit access to /loginn
+                .requestMatchers(AntPathRequestMatcher.antMatcher("/**")).permitAll()  // Add this line to permit access to /loginn
                 .and()
                 .csrf().ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/console/**"))
                 .and()
-                .headers(headers -> headers.frameOptions().sameOrigin())
+                //.headers(headers -> headers.frameOptions().sameOrigin())
                 .formLogin() // If you want to enable form-based login
-                .loginPage("/loginn") // Specify the login page
+//                .loginPage("/loginn") // Specify the login page
                 .and()
                 .logout() // If you want to enable logout
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Specify the logout URL
