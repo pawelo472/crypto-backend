@@ -24,9 +24,11 @@ public class UserImpl implements UserService {
 
                 userDTO.getUserid(),
                 userDTO.getUsername(),
+                this.passwordEncoder.encode(userDTO.getPassword()),
                 userDTO.getEmail(),
+                userDTO.getApikey()
 
-                this.passwordEncoder.encode(userDTO.getPassword())
+
         );
 
         userRepo.save(user);

@@ -22,7 +22,7 @@ public class UserEntity {
     @Column(name="user_email")
     private String email;
 
-    public UserEntity(int userid, String username, String password, String email) {
+    public UserEntity(int userid, String username, String password, String email, Long apikey) {
         this.userid = userid;
         this.username = username;
         this.password = password;

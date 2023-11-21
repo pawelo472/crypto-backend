@@ -9,12 +9,12 @@ public class UserDTO {
     private String username;
     private String email;
     private String password;
-    private String apikey;
+    private Long apikey;
 
     public UserDTO() {
     }
 
-    public UserDTO(int userid, String username, String email, String password, String apikey) {
+    public UserDTO(int userid, String username, String email, String password, Long apikey) {
         this.userid = userid;
         this.username = username;
         this.email = email;
