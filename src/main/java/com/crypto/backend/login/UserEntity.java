@@ -18,11 +18,11 @@ public class UserEntity {
     @Column(name="password")
     private String password;
     @Column(name="api_key")
-    private Long apikey;
+    private String apikey;
     @Column(name="user_email")
     private String email;
 
-    public UserEntity(int userid, String username, String password, String email, Long apikey) {
+    public UserEntity(int userid, String username, String password, String email, String apikey) {
         this.userid = userid;
         this.username = username;
         this.password = password;

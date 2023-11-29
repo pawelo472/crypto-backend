@@ -4,14 +4,14 @@ import lombok.Setter;
 @Setter
 @Getter
 public class LoginDTO {
-    private String email;
+    private String username;
     private String password;
 
     public LoginDTO() {
     }
 
-    public LoginDTO(String email, String password) {
-        this.email = email;
+    public LoginDTO(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Service
 
-public class UserImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepo;
@@ -17,37 +17,49 @@ public class UserImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
 
+
     @Override
     public String addUser(UserDTO userDTO) {
+        // Sprawdzenie, czy istnieje już użytkownik o danej nazwie użytkownika lub adresie e-mail
+        if (userRepo.existsByUsername(userDTO.getUsername())) {
+            // Obsługa sytuacji, gdy istnieje już użytkownik o danej nazwie użytkownika
+            return String.valueOf(new LoginMesage("Username already exists", false));
+        }
 
+        if (userRepo.existsByEmail(userDTO.getEmail())) {
+            // Obsługa sytuacji, gdy istnieje już użytkownik o danym adresie e-mail
+            return String.valueOf(new LoginMesage("Email already exists", false));
+
+        }
+
+        // Jeśli użytkownik o danej nazwie użytkownika i adresie e-mail nie istnieje, to dodaj go do bazy danych
         UserEntity user = new UserEntity(
-
                 userDTO.getUserid(),
                 userDTO.getUsername(),
                 this.passwordEncoder.encode(userDTO.getPassword()),
                 userDTO.getEmail(),
                 userDTO.getApikey()
-
-
         );
 
         userRepo.save(user);
 
         return user.getUsername();
     }
+
     UserDTO userDTO;
 
     @Override
     public LoginMesage loginUser(LoginDTO loginDTO) {
         String msg = "";
-        UserEntity employee1 = userRepo.findByEmail(loginDTO.getEmail());
-        if (employee1 != null) {
+        UserEntity user1 = userRepo.findByUsername(loginDTO.getUsername());
+        if (user1 != null) {
             String password = loginDTO.getPassword();
-            String encodedPassword = employee1.getPassword();
+            String encodedPassword = user1.getPassword();
             Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
             if (isPwdRight) {
-                Optional<UserEntity> user = userRepo.findOneByEmailAndPassword(loginDTO.getEmail(), encodedPassword);
+                Optional<UserEntity> user = userRepo.findOneByUsernameAndPassword(loginDTO.getUsername(), encodedPassword);
                 if (user.isPresent()) {
+
                     return new LoginMesage("Login Success", true);
                 } else {
                     return new LoginMesage("Login Failed", false);
