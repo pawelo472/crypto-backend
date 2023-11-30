@@ -1,36 +1,64 @@
-package com.crypto.backend.login;
+package com.crypto.backend.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 
-
+@RequiredArgsConstructor
 @Configuration
-public class SecurityConfiguration {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+@EnableWebSecurity
+public class SecurityConfig {
+
+    private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
+    private final UserAuthenticationProvider userAuthenticationProvider;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest()
-                        .permitAll())
-                .headers(headers -> headers.frameOptions().disable())
-                .csrf(AbstractHttpConfigurer::disable);
+        http
+                .httpBasic().disable()
+                .exceptionHandling().authenticationEntryPoint(userAuthenticationEntryPoint)
+                .and()
+                .addFilterBefore(new JwtAuthFilter(userAuthenticationProvider), BasicAuthenticationFilter.class)
 
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeHttpRequests((requests) -> requests
+
+
+                        .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
+                        .requestMatchers("/console/**").permitAll()
+                        //.anyRequest().authenticated())
+                        .anyRequest().permitAll()
+                )
+
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers.frameOptions().disable())
+        ;
         return http.build();
     }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest()
+//                        .permitAll())
+//                .headers(headers -> headers.frameOptions().disable())
+//                .csrf(AbstractHttpConfigurer::disable);
+//
+//        return http.build();
+//    }
+
+
 
 
 
