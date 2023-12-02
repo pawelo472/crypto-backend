@@ -39,7 +39,11 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
 
         if (optionalUser.isPresent()) {
-            throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
+            throw new AppException("User already exists", HttpStatus.BAD_REQUEST);
+        }
+        Optional<User> optionalUserByEmail = userRepository.findByEmail(userDto.getEmail());
+        if (optionalUserByEmail.isPresent()) {
+            throw new AppException("Email already exists", HttpStatus.BAD_REQUEST);
         }
 
         User user = userMapper.signUpToUser(userDto);
