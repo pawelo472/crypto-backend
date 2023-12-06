@@ -15,6 +15,7 @@ public class UserDto {
     private String password;
     private String apikey;
     private String username;
+    private String secretapikey;
     private String token;
 
 

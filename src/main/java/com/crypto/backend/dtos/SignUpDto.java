@@ -24,6 +24,9 @@ public class SignUpDto {
     @NotEmpty
     private String apikey;
 
+    @NotEmpty
+    private String secretapikey;
+
 
 
 }

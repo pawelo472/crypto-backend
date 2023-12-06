@@ -23,6 +23,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final PasswordEncoder apikeyEncoder;
+    private final PasswordEncoder secretapikeyEncoder;
 
     private final UserMapper userMapper;
 
@@ -50,6 +51,7 @@ public class UserService {
         User user = userMapper.signUpToUser(userDto);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())));
         user.setApikey(apikeyEncoder.encode(CharBuffer.wrap(userDto.getApikey())));
+        user.setSecretapikey(secretapikeyEncoder.encode(CharBuffer.wrap(userDto.getSecretapikey())));
         User savedUser = userRepository.save(user);
 
         return userMapper.toUserDto(savedUser);

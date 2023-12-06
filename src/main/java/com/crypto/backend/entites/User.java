@@ -31,6 +31,8 @@ public class User {
     private String apikey;
     @Column(name="user_email", nullable = false)
     private String email;
+    @Column(name="secret_api_key", nullable = false)
+    private String secretapikey;
 
 
 }

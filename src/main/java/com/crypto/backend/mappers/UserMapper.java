@@ -13,6 +13,7 @@ public interface UserMapper {
 
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "apikey", ignore = true)
+    @Mapping(target = "secretapikey", ignore = true)
     User signUpToUser(SignUpDto signUpDto);
 
 }
