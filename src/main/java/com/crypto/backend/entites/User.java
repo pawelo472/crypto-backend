@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+import java.sql.Blob;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,12 +29,12 @@ public class User {
     @Column(name="password", nullable = false)
     private String password;
     @Column(name="api_key", nullable = false)
-    @Size(max = 64)
-    private String apikey;
+    private byte[] apikey;
     @Column(name="user_email", nullable = false)
     private String email;
     @Column(name="secret_api_key", nullable = false)
-    private String secretapikey;
+    private byte[] secretapikey;
+
 
 
 }

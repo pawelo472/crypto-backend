@@ -2,6 +2,7 @@ package com.crypto.backend.dtos;
 
 import lombok.*;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
